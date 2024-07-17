@@ -11,7 +11,7 @@ import sys
 from contextlib import ExitStack
 
 from allspice import AllSpice
-from allspice.utils.bom_generation import generate_bom
+from allspice.utils.bom_generation import generate_bom, ColumnConfig
 
 
 if __name__ == "__main__":
@@ -76,7 +76,25 @@ if __name__ == "__main__":
         with open(columns_file, "r") as f:
             columns_data = yaml.safe_load(f.read())
             for column_value in columns_data["columns"]:
-                columns[column_value["name"]] = column_value["part_attributes"]
+                column_config = {}
+                column_config["attributes"] = column_value["part_attributes"]
+                if "sort" in column_value:
+                    column_config["sort"] = ColumnConfig.SortOrder(column_value["sort"])
+                if "remove_rows_matching" in column_value:
+                    column_config["remove_rows_matching"] = column_value["remove_rows_matching"]
+                if "grouped_values_sort" in column_value:
+                    column_config["grouped_values_sort"] = ColumnConfig.SortOrder(
+                        column_value["grouped_values_sort"]
+                    )
+                if "grouped_values_separator" in column_value:
+                    column_config["grouped_values_separator"] = column_value[
+                        "grouped_values_separator"
+                    ]
+                if "grouped_values_allow_duplicates" in column_value:
+                    column_config["grouped_values_allow_duplicates"] = column_value[
+                        "grouped_values_allow_duplicates"
+                    ]
+                columns[column_value["name"]] = ColumnConfig(**column_config)
     except KeyError as e:
         print(f"Error: columns file {columns_file} does not seem to be in the right format.")
         print("Please refer to the README for more information.")
