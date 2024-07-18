@@ -122,7 +122,7 @@ of the attribute should be `asc` or `desc`.
 columns:
   - name: "Part Number"
     part_attributes:
-      - "Part Number"
+      #  - "Part Number"
       - "_name"
     sort: "asc"
 ```
@@ -145,9 +145,10 @@ columns:
     part_attributes:
       - "Part Number"
       - "_name"
-    # This will remove all rows where the part number has "TP" anywhere in it,
-    # i.e. will remove all the test points.
-    remove_rows_matching: "TP"
+    # This will remove all rows where the part number has either "TP", "MTG" or
+    # "FID" anywhere in it, i.e. will remove all the test points, mounting
+    # holes and fiducials.
+    remove_rows_matching: "TP|MTG|FID"
 ```
 
 Since this is a regular expression, you can make fairly complex filters. You
