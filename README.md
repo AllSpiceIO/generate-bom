@@ -107,6 +107,85 @@ is available, which corresponds to the name of the component.
 The underscore is added ahead of the name to prevent these additional attributes
 from overriding any of your own.
 
+### Customizing sorting, filtering and grouping
+
+If you need more control over the BOM, you can configure each column with the
+following attributes. You can mix and match as many of these configuration
+options as you want.
+
+#### Sorting
+
+Add the `sort` attribute to a column to sort the BOM by that column. The value
+of the attribute should be `asc` or `desc`.
+
+```yaml
+columns:
+  - name: "Part Number"
+    part_attributes:
+      #  - "Part Number"
+      - "_name"
+    sort: "asc"
+```
+
+If multiple columns have the `sort` attribute, the BOM will be sorted by the
+columns in the order they are defined.
+
+The default is no sorting. In that case, the order of the BOM is not specified.
+
+#### Filtering
+
+To filter the BOM based on a column, add a Regular Expression pattern to the
+`remove_rows_matching` attribute of a column. As the name indicates, every row
+where the value of the specified column matches this regex will be removed from
+the BOM.
+
+```yaml
+columns:
+  - name: "Part Number"
+    part_attributes:
+      - "Part Number"
+      - "_name"
+    # This will remove all rows where the part number has either "TP", "MTG" or
+    # "FID" anywhere in it, i.e. will remove all the test points, mounting
+    # holes and fiducials.
+    remove_rows_matching: "TP|MTG|FID"
+```
+
+Since this is a regular expression, you can make fairly complex filters. You
+can read more about regular expressions
+[here](https://docs.python.org/3/library/re.html#regular-expression-syntax).
+
+By default, there is no filtering.
+
+#### Grouped Values Configuration
+
+You can use the `grouped_values_sort`, `grouped_values_separator` and
+`grouped_values_allow_duplicates` attributes to configure the grouped values of
+a column. To understand these better, consider the case of a BOM which is grouped
+by Part Number, and you want to have a column that lists all the Designators of
+a part with the same Part Number. You want the designators to be separated by
+a space, and you want them sorted in ascending order. You also want repeated
+designators to appear in the list.
+
+```yaml
+columns:
+  - name: "Part Number"
+    part_attributes:
+      - "Part Number"
+      - "_name"
+  - name: "Designators"
+    part_attributes: "Designator"
+    grouped_values_sort: "asc"
+    grouped_values_separator: " "
+    grouped_values_allow_duplicates: true
+```
+
+By default:
+
+- Grouped values are not sorted, and the order is not specified.
+- Grouped values are separated by a comma.
+- Grouped values do not allow duplicates.
+
 ## Group By
 
 You can also group lines by a column value. The most common is `_part_id`. You
@@ -121,7 +200,7 @@ can combine this with the columns YAML example above, like so:
     group_by: "Part ID"
 ```
 
-Which will generate a BOM squashed by components with matchin Part IDs.
+Which will generate a BOM squashed by components with matching Part IDs.
 
 ## Variants
 
