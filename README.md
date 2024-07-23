@@ -12,7 +12,7 @@ Add the following steps to your actions:
   uses: actions/checkout@v3
 
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.4
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
   with:
     # The path to the project file in your repo (.PrjPcb for Altium, .DSN for OrCad).
     source_path: Archimajor.PrjPcb
@@ -193,7 +193,7 @@ can combine this with the columns YAML example above, like so:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.4
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -209,7 +209,7 @@ to the script. For example:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.4
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
