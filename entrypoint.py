@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-# Generate a BOM from a PrjPcb file.
+# Generate a BOM from a PrjPcb/DSN/SDAX file.
 # For more information, read the README file in this directory.
 
 import argparse
@@ -24,8 +24,9 @@ if __name__ == "__main__":
     parser.add_argument(
         "source_file",
         help=(
-            "The path to the source file used to generate the BOM. If this is an Altium project, "
-            "this should be the .PrjPcb file. For an OrCAD project, this should be the .dsn file. "
+            "The path to the source file used to generate the BOM. This should be "
+            "a .PrjPcb file for Altium projects, a .DSN file for OrCAD projects, "
+            "or a .SDAX file for System Capture projects."
             "Example: 'Archimajor.PrjPcb', 'Schematics/Beagleplay.dsn'."
         ),
     )
