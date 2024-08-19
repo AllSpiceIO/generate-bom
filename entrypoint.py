@@ -15,6 +15,8 @@ from allspice.utils.bom_generation import generate_bom, ColumnConfig
 
 
 if __name__ == "__main__":
+    print("Starting BOM generation add on.")
+
     parser = argparse.ArgumentParser(
         prog="generate_bom", description="Generate a BOM from a project repository."
     )
@@ -69,6 +71,8 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    print("Parsed arguments.")
 
     columns_file = args.columns
     columns = {}
