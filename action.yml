@@ -3,14 +3,16 @@ description: >
   Generate a BOM for the project using py-allspice and attach it as an artifact
   to the run.
 
-  Works for Altium and OrCAD projects.
+  Works for Altium, OrCAD and System Capture projects.
 
 inputs:
   source_path:
     description: >
-      Path to the source file from the root of the repo. For Altium projects,
-      this should be the path to the .PrjPcb file. For OrCAD projects, this
-      should be the path to the .dsn file.
+      Path to the source file from the root of the repo. This should be:
+
+      - A .PrjPcb file for Altium projects.
+      - A .DSN file for OrCAD projects.
+      - An .SDAX file for System Capture projects.
     required: true
   output_file_name:
     description: "Name of the output file"

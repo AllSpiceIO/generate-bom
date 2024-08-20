@@ -1,6 +1,8 @@
 # Generate BOM for E-CAD Projects
 
-Generate a BOM output file for an Altium project on AllSpice Hub using [AllSpice Actions](https://learn.allspice.io/docs/actions-cicd).
+Generate a BOM output file for Altium, OrCAD or System Capture projects on
+AllSpice Hub using
+[AllSpice Actions](https://learn.allspice.io/docs/actions-cicd).
 
 ## Usage
 
@@ -14,7 +16,8 @@ Add the following steps to your actions:
 - name: Generate BOM
   uses: https://hub.allspice.io/Actions/generate-bom@v0.5
   with:
-    # The path to the project file in your repo (.PrjPcb for Altium, .DSN for OrCad).
+    # The path to the project file in your repo.
+    # .PrjPcb for Altium, .DSN for OrCad, .SDAX for System Capture.
     source_path: Archimajor.PrjPcb
     # [optional] A path to a YAML file mapping columns to the component
     # attributes they are from.
@@ -101,8 +104,8 @@ is.
 Note that py-allspice also adds a few static attributes, which are taken from
 the part itself, and not from the properties or attributes. For Altium projects,
 `_part_id` and `_description` are available, which correspond to the Library
-Reference and Description fields of the component. For OrCAD projects, `_name`
-is available, which corresponds to the name of the component.
+Reference and Description fields of the component. For OrCAD and System Capture
+projects, `_name` is available, which corresponds to the name of the component.
 
 The underscore is added ahead of the name to prevent these additional attributes
 from overriding any of your own.
