@@ -221,3 +221,20 @@ to the script. For example:
 ```
 
 When no variant is given, the BOM is generated without considering any variants.
+
+## SSL
+
+If your instance is running on a self-signed certificate, you can tell the action
+to use your certificate by setting the `REQUESTS_CA_BUNDLE` environment variable.
+
+```yaml
+- name: Generate BOM
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
+  with:
+    project_path: Archimajor.PrjPcb
+    columns: .allspice/columns.yml
+    output_file_name: bom.csv
+    variant: "LITE"
+  env:
+    REQUESTS_CA_BUNDLE: /path/to/your/certificate.cert
+```
