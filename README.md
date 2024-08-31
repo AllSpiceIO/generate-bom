@@ -189,6 +189,20 @@ By default:
 - Grouped values are separated by a comma.
 - Grouped values do not allow duplicates.
 
+#### Skip in output
+
+If you need an attribute to just filter, sort or group by, but not show in the
+BOM output, you can use the `skip_in_output` attribute.
+
+```yaml
+columns:
+  - name: "BOM Ignore"
+    part_attributes:
+      - "BOM_IGNORE"
+    remove_rows_matching: ".*"
+    skip_in_output: true
+```
+
 ## Group By
 
 You can also group lines by a column value. The most common is `_part_id`. You
