@@ -205,13 +205,13 @@ columns:
 
 ### Design Reuse repositories
 
-For Altium projects, if you are using device sheets that are located in a
-different repository, you can set a list of design reuse repositories. These
-repositories are tried in order to find device sheets that are not in the
-project, i.e. the first repository to contain a file that has the same name as
-a device sheet will be used for that device sheet. If you are using design
-reuse repositories, you MUST set a custom auth token, as the default one may
-not have the permissions to fetch other repositories.
+For Altium projects, if you use device sheets located in a different
+repository, you can set a list of design reuse repositories. These repositories
+are tried in order to find device sheets that are not in the project, i.e. the
+first repository to contain a file that has the same name as a device sheet
+will be used for that device sheet. If you are using design reuse repositories,
+you MUST also [set a custom auth token](#custom-auth-token), as the default one
+may not have the permissions to fetch other repositories.
 
 An example for the `columns.yml` file content is:
 
