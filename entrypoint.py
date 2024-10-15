@@ -73,6 +73,7 @@ if __name__ == "__main__":
 
     columns_file = args.columns
     columns = {}
+    design_reuse_repos = []
     try:
         with open(columns_file, "r") as f:
             columns_data = yaml.safe_load(f.read())
@@ -96,6 +97,10 @@ if __name__ == "__main__":
                         "grouped_values_allow_duplicates"
                     ]
                 columns[column_value["name"]] = ColumnConfig(**column_config)
+            if "design_reuse_repos" in columns_data:
+                for repo in columns_data["design_reuse_repos"]:
+                    design_reuse_repos.append(repo)
+
     except KeyError as e:
         print(f"Error: columns file {columns_file} does not seem to be in the right format.")
         print("Please refer to the README for more information.")
@@ -116,7 +121,14 @@ if __name__ == "__main__":
     repository = allspice.get_repository(repo_owner, repo_name)
     group_by = args.group_by.split(",") if args.group_by else None
 
-    print("Generating BOM...", file=sys.stderr)
+    allspice.logger.info("Generating BOM...")
+
+    design_reuse_repo_instances = []
+    if design_reuse_repos:
+        allspice.logger.info("Fetching design reuse repositories...")
+        for repo in design_reuse_repos:
+            repo_owner, repo_name = repo.split("/")
+            design_reuse_repo_instances.append(allspice.get_repository(repo_owner, repo_name))
 
     bom_rows = generate_bom(
         allspice,
@@ -126,6 +138,7 @@ if __name__ == "__main__":
         group_by=group_by,
         ref=args.source_ref if args.source_ref else "main",
         variant=args.variant if args.variant else None,
+        design_reuse_repos=design_reuse_repo_instances,
     )
 
     with ExitStack() as stack:
