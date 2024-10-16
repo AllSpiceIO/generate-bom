@@ -14,7 +14,7 @@ Add the following steps to your actions:
   uses: actions/checkout@v3
 
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.6
   with:
     # The path to the project file in your repo.
     # .PrjPcb for Altium, .DSN for OrCad, .SDAX for System Capture.
@@ -203,14 +203,43 @@ columns:
     skip_in_output: true
 ```
 
-## Group By
+### Design Reuse repositories
+
+For Altium projects, if you use device sheets located in a different
+repository, you can set a list of design reuse repositories. These repositories
+are tried in order to find device sheets that are not in the project, i.e. the
+first repository to contain a file that has the same name as a device sheet
+will be used for that device sheet. If you are using design reuse repositories,
+you MUST also [set a custom auth token](#custom-auth-token), as the default one
+may not have the permissions to fetch other repositories.
+
+An example for the `columns.yml` file content is:
+
+```yml
+columns:
+  # ...
+design_reuse_repos:
+  - "Archimajor/DesignReuseRepo"
+  - "Archimajor/DesignReuseRepo2"
+  - "Archimajor/DesignReuseRepo3"
+```
+
+In this case, for each device sheet that is not in the project, the action will
+check each of `Archimajor/DesignReuseRepo`, `Archimajor/DesignReuseRepo2` and
+`Archimajor/DesignReuseRepo3` in order to find the device sheet, and the first
+match found will be used.
+
+Currently, the latest commit on the default branch of the repo is the ref used
+to match the files.
+
+### Group By
 
 You can also group lines by a column value. The most common is `_part_id`. You
 can combine this with the columns YAML example above, like so:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.6
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -219,14 +248,14 @@ can combine this with the columns YAML example above, like so:
 
 Which will generate a BOM squashed by components with matching Part IDs.
 
-## Variants
+### Variants
 
 To generate the BOM for a variant of the project, pass the `--variant` argument
 to the script. For example:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.6
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -236,14 +265,14 @@ to the script. For example:
 
 When no variant is given, the BOM is generated without considering any variants.
 
-## SSL
+### SSL
 
 If your instance is running on a self-signed certificate, you can tell the action
 to use your certificate by setting the `REQUESTS_CA_BUNDLE` environment variable.
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.5
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.6
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -251,4 +280,22 @@ to use your certificate by setting the `REQUESTS_CA_BUNDLE` environment variable
     variant: "LITE"
   env:
     REQUESTS_CA_BUNDLE: /path/to/your/certificate.cert
+```
+
+### Custom Auth token
+
+By default, this action uses the auto-generated auth token for the run.
+However, this auth token may not have all the permissions you need, e.g. if you
+have design reuse repos. In that case, you can customize the auth token used by
+setting the `auth_token` input.
+
+```yaml
+- name: Generate BOM
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.6
+  with:
+    project_path: Archimajor.PrjPcb
+    columns: .allspice/columns.yml
+    output_file_name: bom.csv
+    variant: "LITE"
+    auth_token: ${{ secrets.ALLSPICE_AUTH_TOKEN }}
 ```
