@@ -68,6 +68,11 @@ if __name__ == "__main__":
             "generated for the default variant. This is not used for OrCAD projects."
         ),
     )
+    parser.add_argument(
+        "--log-level",
+        help="The log level for the logger. Defaults to INFO.",
+        default="INFO",
+    )
 
     args = parser.parse_args()
 
@@ -113,9 +118,13 @@ if __name__ == "__main__":
         exit(1)
 
     if args.allspice_hub_url is None:
-        allspice = AllSpice(token_text=auth_token)
+        allspice = AllSpice(token_text=auth_token, log_level=args.log_level)
     else:
-        allspice = AllSpice(token_text=auth_token, allspice_hub_url=args.allspice_hub_url)
+        allspice = AllSpice(
+            token_text=auth_token,
+            allspice_hub_url=args.allspice_hub_url,
+            log_level=args.log_level,
+        )
 
     repo_owner, repo_name = args.repository.split("/")
     repository = allspice.get_repository(repo_owner, repo_name)
