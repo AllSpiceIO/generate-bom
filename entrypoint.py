@@ -5,6 +5,7 @@
 
 import argparse
 import csv
+import logging
 import os
 import yaml
 import sys
@@ -12,6 +13,11 @@ from contextlib import ExitStack
 
 from allspice import AllSpice
 from allspice.utils.bom_generation import generate_bom, ColumnConfig
+
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(sys.stderr)
+handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+logger.addHandler(handler)
 
 
 if __name__ == "__main__":
@@ -76,6 +82,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    logger.setLevel(args.log_level.upper())
+    logger.info("Running generate-bom action.")
+    logger.debug("Arguments: %s", vars(args))
+
     columns_file = args.columns
     columns = {}
     design_reuse_repos = []
@@ -107,34 +117,39 @@ if __name__ == "__main__":
                     design_reuse_repos.append(repo)
 
     except KeyError as e:
-        print(f"Error: columns file {columns_file} does not seem to be in the right format.")
-        print("Please refer to the README for more information.")
-        print(f"Caused by: {e}")
+        logger.critical(
+            "Error: columns file %s does not seem to be in the right format.",
+            columns_file,
+        )
+        logger.critical("Please refer to the README for more information.")
+        logger.critical("Caused by", exc_info=e)
         sys.exit(1)
 
     auth_token = os.environ.get("ALLSPICE_AUTH_TOKEN")
     if auth_token is None:
-        print("Please set the environment variable ALLSPICE_AUTH_TOKEN")
+        logger.critical("Please set the environment variable ALLSPICE_AUTH_TOKEN")
         exit(1)
 
     if args.allspice_hub_url is None:
-        allspice = AllSpice(token_text=auth_token, log_level=args.log_level)
+        allspice = AllSpice(token_text=auth_token, log_level=args.log_level.upper())
     else:
         allspice = AllSpice(
             token_text=auth_token,
             allspice_hub_url=args.allspice_hub_url,
-            log_level=args.log_level,
+            log_level=args.log_level.upper(),
         )
+
+    allspice.logger.addHandler(handler)
 
     repo_owner, repo_name = args.repository.split("/")
     repository = allspice.get_repository(repo_owner, repo_name)
     group_by = args.group_by.split(",") if args.group_by else None
 
-    allspice.logger.info("Generating BOM...")
+    logger.info("Generating BOM...")
 
     design_reuse_repo_instances = []
     if design_reuse_repos:
-        allspice.logger.info("Fetching design reuse repositories...")
+        logger.info("Fetching design reuse repositories...")
         for repo in design_reuse_repos:
             repo_owner, repo_name = repo.split("/")
             design_reuse_repo_instances.append(allspice.get_repository(repo_owner, repo_name))
@@ -161,4 +176,4 @@ if __name__ == "__main__":
         writer.writeheader()
         writer.writerows(bom_rows)
 
-    print("Generated bom.", file=sys.stderr)
+    logger.info("Generated bom.")
