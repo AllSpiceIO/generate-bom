@@ -5,6 +5,7 @@
 
 import argparse
 import csv
+import logging
 import os
 import yaml
 import sys
@@ -76,6 +77,8 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+    print("Running generate-bom action with args: ", vars(args), file=sys.stderr)
+
     columns_file = args.columns
     columns = {}
     design_reuse_repos = []
@@ -118,13 +121,17 @@ if __name__ == "__main__":
         exit(1)
 
     if args.allspice_hub_url is None:
-        allspice = AllSpice(token_text=auth_token, log_level=args.log_level)
+        allspice = AllSpice(token_text=auth_token, log_level=args.log_level.upper())
     else:
         allspice = AllSpice(
             token_text=auth_token,
             allspice_hub_url=args.allspice_hub_url,
-            log_level=args.log_level,
+            log_level=args.log_level.upper(),
         )
+
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s"))
+    allspice.logger.addHandler(handler)
 
     repo_owner, repo_name = args.repository.split("/")
     repository = allspice.get_repository(repo_owner, repo_name)
