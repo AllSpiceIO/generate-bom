@@ -31,7 +31,7 @@ Add the following steps to your actions:
     # Default: ''
     group_by: "Part ID"
     # [optional] The variant of the project to generate the BOM for. If empty
-    # or not present, the BOM will be generated for the default variant.
+    # or not present, the BOM will be generated without considering any variants.
     # Default: ''
     variant: ""
 ```
@@ -250,8 +250,8 @@ Which will generate a BOM squashed by components with matching Part IDs.
 
 ### Variants
 
-To generate the BOM for a variant of the project, pass the `--variant` argument
-to the script. For example:
+To generate the BOM for a variant of the project, pass the `variant` argument
+to the step. For example:
 
 ```yaml
 - name: Generate BOM
