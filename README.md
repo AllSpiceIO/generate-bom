@@ -14,7 +14,7 @@ Add the following steps to your actions:
   uses: actions/checkout@v3
 
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.7
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     # The path to the project file in your repo.
     # .PrjPcb for Altium, .DSN for OrCad, .SDAX for System Capture.
@@ -239,7 +239,7 @@ can combine this with the columns YAML example above, like so:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.7
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -255,7 +255,7 @@ to the step. For example:
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.7
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -272,7 +272,7 @@ to use your certificate by setting the `REQUESTS_CA_BUNDLE` environment variable
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.7
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
@@ -291,7 +291,7 @@ setting the `auth_token` input.
 
 ```yaml
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.7
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     project_path: Archimajor.PrjPcb
     columns: .allspice/columns.yml
