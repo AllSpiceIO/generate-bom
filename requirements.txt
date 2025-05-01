@@ -1,2 +1,2 @@
-py-allspice~=3.9.0
+py-allspice @ git+https://github.com/AllSpiceIO/py-allspice@b841489c1ee7a0969b64d3d7bad29116441ab31d
 pyyaml~=6.0
