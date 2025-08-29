@@ -3,7 +3,7 @@ description: >
   Generate a BOM for the project using py-allspice and attach it as an artifact
   to the run.
 
-  Works for Altium, OrCAD and System Capture projects.
+  Works for Altium, OrCAD, DeHDL and System Capture projects.
 
 inputs:
   source_path:
@@ -13,6 +13,7 @@ inputs:
       - A .PrjPcb file for Altium projects.
       - A .DSN file for OrCAD projects.
       - An .SDAX file for System Capture projects.
+      - A .CPM file for DeHDL projects
     required: true
   output_file_name:
     description: "Name of the output file"
@@ -31,7 +32,7 @@ inputs:
     description: >
       The variant of the project to generate the BOM for. If not present, the
       BOM will be generated for the default variant. Not supported for OrCAD
-      projects.
+      or DeHDL projects.
     default: ""
   log_level:
     description: >
