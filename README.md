@@ -1,6 +1,6 @@
 # Generate BOM for E-CAD Projects
 
-Generate a BOM output file for Altium, OrCAD or System Capture projects on
+Generate a BOM output file for Altium, OrCAD, DeHDL or System Capture projects on
 AllSpice Hub using
 [AllSpice Actions](https://learn.allspice.io/docs/actions-cicd).
 
@@ -17,7 +17,7 @@ Add the following steps to your actions:
   uses: https://hub.allspice.io/Actions/generate-bom@v0.8
   with:
     # The path to the project file in your repo.
-    # .PrjPcb for Altium, .DSN for OrCad, .SDAX for System Capture.
+    # .PrjPcb for Altium, .DSN for OrCad, .CPM for DeHDL, .SDAX for System Capture.
     source_path: Archimajor.PrjPcb
     # [optional] A path to a YAML file mapping columns to the component
     # attributes they are from.
