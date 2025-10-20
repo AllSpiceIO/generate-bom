@@ -34,6 +34,10 @@ inputs:
       BOM will be generated for the default variant. Not supported for OrCAD
       or DeHDL projects.
     default: ""
+  reference:
+    description: "commit ref or SHA, i.e. main, v1"
+    required: false
+    default: ${{ github.sha }}
   log_level:
     description: >
       The level at which to log. Use "DEBUG" to get more information, such as
@@ -51,7 +55,7 @@ runs:
   image: "Dockerfile"
   args:
     - "--source_ref"
-    - ${{ github.sha }}
+    - ${{ inputs.reference }}
     - "--allspice_hub_url"
     - ${{ github.server_url }}
     - "--columns"
