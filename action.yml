@@ -46,6 +46,11 @@ inputs:
       token for the run is used.
     required: false
     default: ${{ github.token }}
+  use_legacy_altium_renderer:
+    description: >
+      Force use of the legacy Altium renderer in case the new one is causing issues.
+    required: false
+    default: "false"
 runs:
   using: "docker"
   image: "Dockerfile"
@@ -64,6 +69,8 @@ runs:
     - "${{ github.workspace}}/${{ inputs.output_file_name }}"
     - "--log-level"
     - ${{ inputs.log_level }}
+    - "--use-legacy-altium-renderer"
+    - ${{ inputs.use_legacy_altium_renderer }}
     - ${{ github.repository }}
     - ${{ inputs.source_path }}
   env:

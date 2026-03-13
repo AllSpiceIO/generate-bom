@@ -14,7 +14,7 @@ Add the following steps to your actions:
   uses: actions/checkout@v3
 
 - name: Generate BOM
-  uses: https://hub.allspice.io/Actions/generate-bom@v0.10
+  uses: https://hub.allspice.io/Actions/generate-bom@v0.11
   with:
     # The path to the project file in your repo.
     # .PrjPcb for Altium, .DSN for OrCad, .CPM for DeHDL, .SDAX for System Capture.
@@ -299,3 +299,4 @@ setting the `auth_token` input.
     variant: "LITE"
     auth_token: ${{ secrets.ALLSPICE_AUTH_TOKEN }}
 ```
+

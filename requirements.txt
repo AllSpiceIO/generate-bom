@@ -1,2 +1,2 @@
-py-allspice~=3.12.1
+py-allspice>=4.0.0b1
 pyyaml~=6.0
