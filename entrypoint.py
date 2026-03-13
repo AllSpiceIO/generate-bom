@@ -80,6 +80,11 @@ if __name__ == "__main__":
         help="The log level for the logger. Defaults to INFO.",
         default="INFO",
     )
+    parser.add_argument(
+        "--use-legacy-altium-renderer",
+        help="Force use of the legacy Altium renderer in case the new one is causing issues.",
+        default="false",
+    )
 
     args = parser.parse_args()
 
@@ -139,6 +144,9 @@ if __name__ == "__main__":
             allspice_hub_url=args.allspice_hub_url,
             log_level=args.log_level.upper(),
         )
+
+    if args.use_legacy_altium_renderer == "true":
+        allspice.use_new_schdoc_renderer = False
 
     allspice.logger.addHandler(handler)
 
