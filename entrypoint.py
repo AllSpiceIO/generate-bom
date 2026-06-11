@@ -32,8 +32,8 @@ if __name__ == "__main__":
         help=(
             "The path to the source file used to generate the BOM. This should be "
             "a .PrjPcb file for Altium projects, a .DSN file for OrCAD projects, "
-            "a .CPM file for DeHDL projects, or a .SDAX file for System Capture "
-            "projects."
+            "a .CPM file for DeHDL projects, a .SDAX file for System Capture "
+            "projects, or a .PRJ file for DxDesigner projects. "
             "Example: 'Archimajor.PrjPcb', 'Schematics/Beagleplay.dsn'."
         ),
     )
@@ -72,7 +72,7 @@ if __name__ == "__main__":
         "--variant",
         help=(
             "The variant of the project to generate the BOM for. If not present, the BOM will be "
-            "generated for the default variant. This is not used for OrCAD or DeHDL projects."
+            "generated for the default variant. This is not used for OrCAD, DeHDL, or DxDesigner projects."
         ),
     )
     parser.add_argument(
